@@ -12,7 +12,7 @@ from study_agent import (
 st.set_page_config(
     page_title="StudyPilot AI",
     page_icon="📚",
-    layout="wide"
+    layout="wide",
 )
 
 st.title("📚 StudyPilot AI")
@@ -59,67 +59,70 @@ if topic.strip():
     with tab1:
         if st.button("Create my study plan", key="plan"):
             with st.spinner("Creating your personalized study plan..."):
-                st.session_state["study_plan"] = create_study_plan(
+                st.session_state["study_plan_result"] = create_study_plan(
                     topic, subject, level
                 )
-        if "study_plan" in st.session_state:
-            st.markdown(st.session_state["study_plan"])
+        if "study_plan_result" in st.session_state:
+            st.markdown(st.session_state["study_plan_result"])
 
     with tab2:
         if st.button("Explain this topic", key="explain"):
             with st.spinner("Your AI tutor is preparing an explanation..."):
-                st.session_state["explanation"] = explain_topic(
+                st.session_state["explanation_result"] = explain_topic(
                     topic, subject, level
                 )
-        if "explanation" in st.session_state:
-            st.markdown(st.session_state["explanation"])
+        if "explanation_result" in st.session_state:
+            st.markdown(st.session_state["explanation_result"])
 
-    
-with tab3:
-    if st.button("Generate revision notes", key="generate_notes_btn"):
-        with st.spinner("Preparing revision notes..."):
-            st.session_state["revision_notes_result"] = generate_notes(
-                topic, subject
-            )
-
-    if "revision_notes_result" in st.session_state:
-        st.markdown(st.session_state["revision_notes_result"])
-
-
-    with tab4:
-        if st.button("Create flashcards", key="flashcards"):
-            with st.spinner("Creating flashcards..."):
-                st.session_state["flashcards"] = generate_flashcards(
+    with tab3:
+        if st.button("Generate revision notes", key="generate_notes_btn"):
+            with st.spinner("Preparing revision notes..."):
+                st.session_state["revision_notes_result"] = generate_notes(
                     topic, subject
                 )
-        if "flashcards" in st.session_state:
-            st.markdown(st.session_state["flashcards"])
+        if "revision_notes_result" in st.session_state:
+            st.markdown(st.session_state["revision_notes_result"])
+
+    with tab4:
+        if st.button("Create flashcards", key="generate_flashcards_btn"):
+            with st.spinner("Creating flashcards..."):
+                st.session_state["flashcards_result"] = generate_flashcards(
+                    topic, subject
+                )
+        if "flashcards_result" in st.session_state:
+            st.markdown(st.session_state["flashcards_result"])
 
     with tab5:
-        if st.button("Generate quiz", key="quiz"):
+        if st.button("Generate quiz", key="generate_quiz_btn"):
             with st.spinner("Writing your quiz questions..."):
-                st.session_state["quiz"] = generate_quiz(topic, subject)
-        if "quiz" in st.session_state:
-            st.markdown(st.session_state["quiz"])
+                st.session_state["quiz_result"] = generate_quiz(
+                    topic, subject
+                )
+        if "quiz_result" in st.session_state:
+            st.markdown(st.session_state["quiz_result"])
 
     with tab6:
         st.write("Record what you studied today and what remains.")
         learned = st.text_area(
             "What did you learn?",
             placeholder="Example: Variables and data types",
+            key="learned_topics_input",
         )
         remaining = st.text_area(
             "What do you still need to learn?",
             placeholder="Example: Loops and functions",
+            key="remaining_topics_input",
         )
-        if st.button("Create daily recap", key="recap"):
+
+        if st.button("Create daily recap", key="generate_recap_btn"):
             with st.spinner("Preparing your daily recap..."):
-                st.session_state["recap"] = generate_daily_recap(
+                st.session_state["daily_recap_result"] = generate_daily_recap(
                     learned or "No topics recorded",
                     remaining or "Not specified",
                 )
-        if "recap" in st.session_state:
-            st.markdown(st.session_state["recap"])
+
+        if "daily_recap_result" in st.session_state:
+            st.markdown(st.session_state["daily_recap_result"])
 
 else:
     st.info("👆 Enter a topic above to start learning.")
