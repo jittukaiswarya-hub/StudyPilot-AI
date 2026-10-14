@@ -74,12 +74,17 @@ if topic.strip():
         if "explanation" in st.session_state:
             st.markdown(st.session_state["explanation"])
 
-    with tab3:
-        if st.button("Generate revision notes", key="notes"):
-            with st.spinner("Preparing revision notes..."):
-                st.session_state["notes"] = generate_notes(topic, subject)
-        if "notes" in st.session_state:
-            st.markdown(st.session_state["notes"])
+    
+with tab3:
+    if st.button("Generate revision notes", key="generate_notes_btn"):
+        with st.spinner("Preparing revision notes..."):
+            st.session_state["revision_notes_result"] = generate_notes(
+                topic, subject
+            )
+
+    if "revision_notes_result" in st.session_state:
+        st.markdown(st.session_state["revision_notes_result"])
+
 
     with tab4:
         if st.button("Create flashcards", key="flashcards"):
